@@ -45,10 +45,11 @@ module ConvertValidate =
         |> List.map ((|>) chapter.SourceFile)
         |> fun [ directory; filename; extension ] -> 
             [ directory
-              sprintf "%s[%s][%d][%.3f]" filename (chapter.Fps <??> (0.0, 0.0)
+              sprintf "%s[%s][%d]" filename (chapter.Fps <??> (0.0, 0.0)
                                            |> snd
                                            |> string
-                                           |> Decode "0" "") (chapter.OffsetMs) (chapter.CummulativeMin)
+                                           |> Decode "0" "") (chapter.OffsetMs)
+                                           |> Replace "[]" ""
               extension ]
         |> fun [ directory; filename; extension ] -> Path.Combine(directory, filename) + extension
     

@@ -31,7 +31,7 @@ module Story =
         { SourceFile : string
           Fps : (float * float) option
           OffsetMs : int64
-          CummulativeMin : float
+          //CummulativeMin : float
           OnlyAfter : TimeSpan
           SubFileContent : string []
           Force : bool }

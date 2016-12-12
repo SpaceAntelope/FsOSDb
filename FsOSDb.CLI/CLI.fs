@@ -17,7 +17,7 @@ module CLI =
         | [<Unique; MainCommand; AltCommandLine("-s")>] SourceFile of string
         | [<Unique>] Fps of from : float * ``to`` : float
         | [<Unique; AltCommandLine("-off")>] OffsetMs of int64
-        | [<Unique; AltCommandLine("-cmm")>] CumulativeMin of float
+        //| [<Unique; AltCommandLine("-cmm")>] CumulativeMin of float
         | [<Unique; AltCommandLine("-after")>] OnlyAfter of h : int * min : int * sec : int
         | [<Unique; AltCommandLine("-f")>] Force
         interface IArgParserTemplate with
@@ -27,8 +27,7 @@ module CLI =
                 | Fps _ -> "FPS conversion: sourceFps targetFps"
                 | OffsetMs _ -> "Milliseconds to add or remove from result"
                 | OnlyAfter _ -> "Apply conversion only after this timestamp."
-                | CumulativeMin _ -> 
-                    "Increase offset from --offsetms every x minutes. Useful if the original subtitle skips regularly for the network logo."
+                //| CumulativeMin _ ->  "Increase offset from --offsetms every x minutes. Useful if the original subtitle skips regularly for the network logo."
                 | Force -> "Overwrite existing converted files."
     
     and UploadArgs = 

@@ -9,23 +9,22 @@ module ConvertStory =
     open System.IO
     open RR
     
-    type Story' = Story<ChapterConvert>
-
     module Common = 
-        let LoadData(story : Story') = 
+        let LoadData(story : Story<ChapterConvert>) = 
             { story with Chapter = { story.Chapter with SubFileContent = File.ReadAllLines(story.Chapter.SourceFile) } } |> Success
         
-        let ConvertTimeSpan (from : float) (sourceFps, targetFps) (cumulative : float) offsetMs (source : TimeSpan) = 
+        let ConvertTimeSpan (from : float) (sourceFps, targetFps) offsetMs (source : TimeSpan) = 
             if source.TotalSeconds >= from then 
                 let fpsOffset = 
                     if sourceFps = 0.0 || targetFps = 0.0 then source.TotalMilliseconds
                     else sourceFps / targetFps * source.TotalMilliseconds
                 
-                let cumulativeFactor = Math.Floor(fpsOffset / Math.Floor(Math.Max(cumulative * 60000.0, 1.0)))
-                (fpsOffset + cumulativeFactor * offsetMs) |> TimeSpan.FromMilliseconds
+                //let cumulativeFactor = Math.Floor(fpsOffset / Math.Floor(Math.Max(cumulative * 60000.0, 1.0)))
+                //(fpsOffset + cumulativeFactor * offsetMs) |> TimeSpan.FromMilliseconds
+                (fpsOffset + offsetMs) |> TimeSpan.FromMilliseconds
             else source
         
-        let WriteSubtitleFile(story : Story') = 
+        let WriteSubtitleFile(story : Story<ChapterConvert>) = 
             let targetFilename = story.Chapter |> ConvertValidate.TargetFileName
             printfnResult "Writing file %s..." targetFilename
             (targetFilename, story.Chapter.SubFileContent) ||> WriteAllLines
@@ -54,11 +53,11 @@ module ConvertStory =
             else if String.IsNullOrEmpty(str) |> not then Line str
             else Empty
         
-        let ConvertData(story : Story') = 
+        let ConvertData(story : Story<ChapterConvert>) = 
             let convert = 
                 match story.Chapter.Fps with
-                | Some fps -> ConvertTimeSpan story.Chapter.OnlyAfter.TotalSeconds fps story.Chapter.CummulativeMin
-                | None -> ConvertTimeSpan story.Chapter.OnlyAfter.TotalSeconds (0.0, 0.0) story.Chapter.CummulativeMin
+                | Some fps -> ConvertTimeSpan story.Chapter.OnlyAfter.TotalSeconds fps //story.Chapter.CummulativeMin
+                | None -> ConvertTimeSpan story.Chapter.OnlyAfter.TotalSeconds (0.0, 0.0) //story.Chapter.CummulativeMin
                 <| (float story.Chapter.OffsetMs)
             story.Chapter.SubFileContent
             |> Array.map (function 
@@ -107,7 +106,7 @@ module ConvertStory =
                 Some(start, stop, dialogue)
             | _ -> None
         
-        let ConvertData(story : Story') = 
+        let ConvertData(story : Story<ChapterConvert>) = 
             story.Chapter.SubFileContent
             |> Array.choose (ExtractInfo)
             |> Array.mapi (fun i (start, stop, dialog) -> 
@@ -116,7 +115,7 @@ module ConvertStory =
             |> Array.collect (id)
             |> fun content -> { story with Chapter = { story.Chapter with SubFileContent = content } }
     
-    let ConvertData(story : Story') = 
+    let ConvertData(story : Story<ChapterConvert>) = 
         match story.Chapter.SourceFile with
         | ConvertValidate.Srt -> Srt.ConvertData story |> Success
         | ConvertValidate.Ass -> Ass.ConvertData story |> Success
@@ -126,7 +125,7 @@ module ConvertStory =
             |> ConvertValidate.SubtitleFileInValid
             |> Failed
     
-    let OnceUponATime(story : Story') = 
+    let OnceUponATime(story : Story<ChapterConvert>) = 
         story
         |> ConvertValidate.AssertPathIsValid
         >>= ConvertValidate.AssertFpsConversionIsValid

@@ -20,7 +20,7 @@ module ChapterManager =
           OffsetMs = results.GetResult(<@ OffsetMs @>, defaultValue = 0L)
           SubFileContent = [||]
           OnlyAfter = results.GetResult(<@ OnlyAfter @>, defaultValue = (0, 0, 0)) |> fun (h, m, s) -> TimeSpan(h, m, s)
-          CummulativeMin = results.GetResult(<@ CumulativeMin @>, defaultValue = 0.0)
+          //CummulativeMin = results.GetResult(<@ CumulativeMin @>, defaultValue = 0.0)
           Force = results.Contains(<@ ConvertArgs.Force @>) }
     
     let ChapterUploadCreateFromArgs(results : ParseResults<UploadArgs>) = 
