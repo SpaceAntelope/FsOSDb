@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "FsOSDb.Core", "..\FsOSDb.Core\FsOSDb.Core.fsproj", "{7116066F-9CBB-439C-86EB-B52C4A76DD34}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "FsOSDb.CLI", "..\FsOSDb.CLI\FsOSDb.CLI.fsproj", "{5C3AE5A9-A005-454C-A321-3C4097AFAA8B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7116066F-9CBB-439C-86EB-B52C4A76DD34}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7116066F-9CBB-439C-86EB-B52C4A76DD34}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7116066F-9CBB-439C-86EB-B52C4A76DD34}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7116066F-9CBB-439C-86EB-B52C4A76DD34}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5C3AE5A9-A005-454C-A321-3C4097AFAA8B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5C3AE5A9-A005-454C-A321-3C4097AFAA8B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5C3AE5A9-A005-454C-A321-3C4097AFAA8B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5C3AE5A9-A005-454C-A321-3C4097AFAA8B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
