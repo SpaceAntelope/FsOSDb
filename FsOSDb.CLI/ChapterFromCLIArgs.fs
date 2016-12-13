@@ -1,6 +1,6 @@
 ﻿namespace FsOSBd.CLI
 
-module ChapterManager = 
+module ChapterFromCLIArgs = 
     open Argu
     open FsOSBd.Core.Results
     open FsOSBd.Core.Story
@@ -12,7 +12,7 @@ module ChapterManager =
     open System.Configuration
     open FsOSBd.Core.ConfigurationManager
     
-    let ChapterConvertCreateFromArgs(results : ParseResults<ConvertArgs>) = 
+    let Convert(results : ParseResults<ConvertArgs>) = 
         { SourceFile = results.GetResult(<@ SourceFile @>)
           Fps = 
               if results.Contains <@ ConvertArgs.Fps @> then results.GetResult(<@ ConvertArgs.Fps @>) |> Some
@@ -20,19 +20,18 @@ module ChapterManager =
           OffsetMs = results.GetResult(<@ OffsetMs @>, defaultValue = 0L)
           SubFileContent = [||]
           OnlyAfter = results.GetResult(<@ OnlyAfter @>, defaultValue = (0, 0, 0)) |> fun (h, m, s) -> TimeSpan(h, m, s)
-          //CummulativeMin = results.GetResult(<@ CumulativeMin @>, defaultValue = 0.0)
           Force = results.Contains(<@ ConvertArgs.Force @>) }
     
-    let ChapterUploadCreateFromArgs(results : ParseResults<UploadArgs>) = 
+    let Upload(results : ParseResults<UploadArgs>) = 
         { MovieFile = results.GetResult(<@ UploadArgs.MovieFile @>)
           SubtitleFile = results.GetResult(<@ SubtitleFile @>)
           Fps = results.GetResult(<@ UploadArgs.Fps @>)
           LanguageId = results.GetResult(<@ UploadArgs.LanguageId @>)
           ImdbId = results.GetResult(<@ UploadArgs.ImdbId @>) }
     
-    let ChapterReportCreateFromArgs(results : ParseResults<ReportHashArgs>) = { IDSubMovieFile = results.GetResult(<@ ReportHashArgs.SubFileId @>) }
+    let Report(results : ParseResults<ReportHashArgs>) = { IDSubMovieFile = results.GetResult(<@ ReportHashArgs.SubFileId @>) }
     
-    let ChapterDownloadCreateFromArgs(results : ParseResults<DownloadArgs>) = 
+    let Download(results : ParseResults<DownloadArgs>) = 
         let movieFile = results.GetResult(<@ DownloadArgs.MoviePath @>, None)
         let outputPath = results.GetResult(<@ DownloadArgs.OutputPath @>, None)
         
@@ -67,7 +66,7 @@ module ChapterManager =
           FilterSubtitleInfo = Some MenuManager.ShowSubInfoSelectionMenu
           FilterMovieSuggestions = Some MenuManager.ShowBasicMovieSelectionMenu }
     
-    let ChapterCredentialsCreateFromArgs(results : ParseResults<CredentialAgrs>) = 
+    let Credentials(results : ParseResults<CredentialAgrs>) = 
         let (username, password) = results.GetResult(<@ CredentialAgrs.LogInfo @>, ("", ""))
         { UserName = username
           Password = password

@@ -51,7 +51,7 @@
     <None Include="App.config" />
     <Compile Include="CLI.fs" />
     <Compile Include="MenuManager.fs" />
-    <Compile Include="ChapterManager.fs" />
+    <Compile Include="ChapterFromCLIArgs.fs" />
     <Compile Include="FsOSDb.CLI.fs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />

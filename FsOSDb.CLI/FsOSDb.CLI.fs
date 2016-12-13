@@ -7,9 +7,8 @@ module Program =
     open FsOSBd.Core.Story
     open FsOSBd.Core.HelperFunctions
     open FsOSBd.Core.RR
-    open System.Reflection
-    //open System.Configuration
-    open ChapterManager   
+    open System.Reflection    
+    open ChapterFromCLIArgs
 
 //    let PrintSettings() = 
 //        ConfigurationManager.AppSettings.AllKeys |> Array.iter (fun key -> printfn "%s = %A" key ConfigurationManager.AppSettings.[key])
@@ -30,35 +29,31 @@ module Program =
     let ExecuteSubCommmand(results : ParseResults<CLIArguments>) = 
         match results.GetSubCommand() with
         | CLIArguments.Upload args -> 
-            ChapterUploadCreateFromArgs args
+            ChapterFromCLIArgs.Upload args
             |> Story<_>.CreateFromChapter
             |> UploadStory.OnceUponATime
             |> Composition.Upload
         | CLIArguments.Convert(args) -> 
-            ChapterConvertCreateFromArgs args
+            ChapterFromCLIArgs.Convert args
             |> Story<_>.CreateFromChapter
             |> ConvertStory.OnceUponATime
             |> Composition.Convert
         | CLIArguments.Download(args) -> 
-            ChapterDownloadCreateFromArgs args
+            ChapterFromCLIArgs.Download args
             |> Story<_>.CreateFromChapter
             |> DownloadStory.OnceUponATime
             |> Composition.Download
         | CLIArguments.ReportHash(args) -> 
-            ChapterReportCreateFromArgs args
+            ChapterFromCLIArgs.Report args
             |> Story<_>.CreateFromChapter
             |> ReportStory.OnceUponATime
             |> Composition.ReportHash
         | CLIArguments.Credentials(args) -> 
-            ChapterCredentialsCreateFromArgs args
+            ChapterFromCLIArgs.Credentials args
             |> Story<_>.CreateFromChapter
             |> CredentialsStory.OnceUponATime
             |> Composition.Credentials
     
-    //                    | CLIArguments.Configure(_) -> 
-    //                        "Configure"
-    //                        |> Common.NotImplemented
-    //                        |> FailedCommon
     let ComposeResultAndShowOutput result = 
         match result with
         | Success story -> 
